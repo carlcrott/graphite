@@ -8,10 +8,17 @@ sh bootstrap-salt.sh -M -N git v2014.1.0
 apt-get -y install python-dev build-essential
 apt-get -y install python-pip
 
-# install edge libcloud v 0.16.0
-#pip install -e git+https://git-wip-us.apache.org/repos/asf/libcloud.git@v0.16.0#egg=apache-libcloud
-pip install -e git+https://git-wip-us.apache.org/repos/asf/libcloud.git@trunk#egg=apache-libcloud
+# install libcloud
+if pip list | grep libcloud > /dev/null 2>&1 ; then
+    echo "libcloud -- installed"
+else
+    pip install -e git+https://git-wip-us.apache.org/repos/asf/libcloud.git@trunk#egg=apache-libcloud
+fi
+
 pip install pycrypto==2.6.1
+# OPTIONAL: install edge libcloud v 0.16.0
+# pip install -e git+https://git-wip-us.apache.org/repos/asf/libcloud.git@v0.16.0#egg=apache-libcloud
+
 
 # Report on versions
 salt --versions-report
