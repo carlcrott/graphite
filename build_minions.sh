@@ -35,4 +35,11 @@ salt '*' test.ping
 #salt '*' state.highstate -l all
 #salt-call -l debug state.highstate
 
+# make dir structure and parents
+mkdir -p /srv/formulas/
+cd /srv/formulas/
+
+# Clone the graphite formula
+git clone https://github.com/saltstack-formulas/graphite-formula 
+
 salt '*' state.highstate

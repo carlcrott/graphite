@@ -78,22 +78,20 @@ master_gce-n1-standard-1:
 EOF
 
 
+# place master config
+cp ~/graphite/salt/master /etc/salt/
+
 # place minion config
 cp ~/graphite/salt/minion /etc/salt/
-
-
-
-# place master config
-# cp ~/graphite/salt/master /etc/salt/
-
 
 #mkdir /etc/salt/cloud.providers.d
 
 
-# # default location for salt state files
-# mkdir /srv/salt/
-# cp ~/graphite/salt/*.sls /srv/salt/
+# default location for salt state files
+mkdir -p /srv/salt/
+cp ~/graphite/salt/*.sls /srv/salt/
 
+#mkdir -p /srv/
 
 #mkdir /etc/salt/
 # place master config
