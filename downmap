@@ -1,0 +1,1 @@
+yes | salt-cloud -P -m cloud.map -d

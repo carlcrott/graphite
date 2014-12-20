@@ -1,0 +1,56 @@
+curl -o bootstrap.sh -L http://bootstrap.saltstack.org
+sh bootstrap.sh -M -N git v2014.1.0
+
+
+
+
+apt-get -y install python-pip python-dev build-essential
+pip install --upgrade pip
+# apt-get install python-dev python-pip -y
+
+pip install -e git+https://git-wip-us.apache.org/repos/asf/libcloud.git@trunk#egg=apache-libcloud
+pip install pycrypto==2.6.1
+
+salt --versions-report
+echo "apache-libcloud version:"
+python -c "import libcloud ; print libcloud.__version__"
+
+
+
+nano /root/.ssh/black-8ac9a2d12429.pem
+
+
+CURRENT_IP=$(ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
+cat > /etc/salt/cloud <<EOF
+providers:
+    gce-config:
+        project: "black-inf"
+        service_account_email_address: "845929625302-f5dqut87aipunjgl2jhq5lgvjbv7c2ul@developer.gserviceaccount.com"
+        service_account_private_key: "/root/.ssh/black-8ac9a2d12429.pem"
+        provider: gce
+
+        ssh_username: ubuntu
+EOF
+cat > /etc/salt/cloud.profiles <<EOF
+salt_minion:
+    minion:
+        master: $CURRENT_IP
+    image: ubuntu-1204-precise-v20141031
+    size: n1-standard-1
+    location: us-central1-a
+    make_master: False
+    deploy: True
+    tags: '["minion", "salt"]'
+    provider: gce-config
+EOF
+
+
+gcutil ssh --permit_root_ssh $(hostname -s)
+
+
+pkill salt-master && salt-master -d
+
+salt-cloud -p salt_minion axon{1..3}
+
+
+salt \* test.ping
