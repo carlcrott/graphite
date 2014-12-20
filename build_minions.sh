@@ -23,11 +23,10 @@ yes | sudo salt-cloud -P -m cloud.map
 # write out configs for general usage / parsing
 #salt '*' network.ip_addrs --out=json --static > minion_metadata.json
 
-# once the mpi list is built out pull it onto all the minions
 #salt '*' state.highstate -l debug
 
 ## test connectivity
-# salt '*' test.ping
+salt '*' test.ping
 
 ## run remote commands
 # salt '*' cmd.run 'uname -a'
@@ -36,4 +35,4 @@ yes | sudo salt-cloud -P -m cloud.map
 #salt '*' state.highstate -l all
 #salt-call -l debug state.highstate
 
-
+salt '*' state.highstate
