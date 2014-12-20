@@ -82,12 +82,12 @@ EOF
 
 
 # place minion config
-cp ~/inf/salt/minion /etc/salt/
+cp ~/graphite/salt/minion /etc/salt/
 
 
 
 # place master config
-# cp ~/inf/salt/master /etc/salt/
+# cp ~/graphite/salt/master /etc/salt/
 
 
 #mkdir /etc/salt/cloud.providers.d
@@ -95,17 +95,17 @@ cp ~/inf/salt/minion /etc/salt/
 
 # # default location for salt state files
 # mkdir /srv/salt/
-# cp ~/inf/salt/*.sls /srv/salt/
+# cp ~/graphite/salt/*.sls /srv/salt/
 
 
 #mkdir /etc/salt/
 # place master config
-#cp ~/inf/salt/master /etc/salt/
+#cp ~/graphite/salt/master /etc/salt/
 
 
 # # place rackspace profiles
 # mkdir /etc/salt/cloud.profiles.d
-# cp ~/inf/salt/cloud.profiles.d/gcloud.conf /etc/salt/cloud.profiles.d/
+# cp ~/graphite/salt/cloud.profiles.d/gcloud.conf /etc/salt/cloud.profiles.d/
 
 
 
