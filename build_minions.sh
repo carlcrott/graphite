@@ -40,6 +40,7 @@ mkdir -p /srv/formulas/
 cd /srv/formulas/
 
 # Clone the graphite formula
-git clone https://github.com/saltstack-formulas/graphite-formula 
+git clone git@github.com:carlcrott/graphite-formula.git
+# git clone https://github.com/saltstack-formulas/graphite-formula 
 
 salt '*' state.highstate
