@@ -79,10 +79,10 @@ EOF
 
 
 # place master config
-cp ~/graphite/salt/master /etc/salt/
+cp ~/graphite/salt/master /etc/salt/master
 
 # place minion config
-cp ~/graphite/salt/minion /etc/salt/
+cp ~/graphite/salt/minion /etc/salt/minion
 
 #mkdir /etc/salt/cloud.providers.d
 
