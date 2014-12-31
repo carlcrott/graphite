@@ -39,7 +39,7 @@ providers:
 
     project: "black-inf"
     service_account_email_address: "845929625302-f5dqut87aipunjgl2jhq5lgvjbv7c2ul@developer.gserviceaccount.com"
-    service_account_private_key: "/root/.ssh/black-fba75740b15c.pem"
+    service_account_private_key: "/root/.ssh/black-d214749bfe98.pem"
     provider: gce
 
     ssh_username: ubuntu
