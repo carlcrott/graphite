@@ -1,36 +1,66 @@
 #!/bin/sh
+
+
+
+
+###
+# Install salt dependencies
+###
 apt-get -y install curl sshpass
-
-# install salt
 sh bootstrap-salt.sh -M -N git v2014.1.0
-
-# install pip
 apt-get -y install python-dev build-essential
 apt-get -y install python-pip
+pip install pycrypto==2.6.1
 
-# install libcloud
+# Install libcloud
 if [ ! -d src/apache-libcloud/ ]; then
-  pip install -e git+https://git-wip-us.apache.org/repos/asf/libcloud.git@trunk#egg=apache-libcloud
-  # OPTIONAL: install edge libcloud v 0.16.0
+  # Clone repo, reset to specific working sha and install with pip
+  cd ~/ && git clone git@github.com:apache/libcloud.git && cd libcloud
+  git reset --hard 0486f77e7b3c6a70ce11fff45401b8d3767876bc && cd .. && pip install git+file:/root/libcloud
+
+  # OPTIONAL: install libcloud trunk using github tag
+  # pip install -e git+https://git-wip-us.apache.org/repos/asf/libcloud.git@trunk#egg=apache-libcloud
+
+  # OPTIONAL: install libcloud 0.16.0 using github tag
   # pip install -e git+https://git-wip-us.apache.org/repos/asf/libcloud.git@v0.16.0#egg=apache-libcloud
 fi
 
-pip install pycrypto==2.6.1
 
-# Report on versions
+
+
+
+###
+# Verify salt dependency versions ( working versions )
+###
 salt --versions-report
-python -c "import libcloud ; print libcloud.__version__"
+       #           Salt: 2014.1.0
+       #         Python: 2.7.3 (default, Feb 27 2014, 19:58:35)
+       #         Jinja2: 2.6
+       #       M2Crypto: 0.21.1
+       # msgpack-python: 0.1.10
+       #   msgpack-pure: Not Installed
+       #       pycrypto: 2.6.1
+       #         PyYAML: 3.10
+       #          PyZMQ: 13.0.0
+       #            ZMQ: 3.2.2
+python -c "import libcloud ; print libcloud.__version__" 
+       # 0.16.0
 
-## Salt master configurations
 
-# ensure firewall ports are open for salt
+
+
+###
+# Salt master configurations
+###
+
+# Ensure firewall ports are open for salt
 ufw allow 4505
 ufw allow 4506
 
-# restart salt-master
+# Restart salt-master
 pkill salt-master && salt-master -d
 
-# auto configure salt-master IP from localmachine IP
+# Auto configure salt-master IP from localmachine IP
 CURRENT_IP=$(ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}')
 
 envsubst <<EOF > /etc/salt/cloud
@@ -78,28 +108,33 @@ master_gce-n1-standard-1:
 EOF
 
 
-# place master config
+# Place master config
 cp ~/graphite/salt/master /etc/salt/master
-
-# place minion config
+# Place minion config
 cp ~/graphite/salt/minion /etc/salt/minion
 
-#mkdir /etc/salt/cloud.providers.d
+
+# Default formula dir structure and parents
+mkdir -p /srv/formulas/ && cd /srv/formulas/
+# Clone the graphite formula
+git clone https://github.com/saltstack-formulas/graphite-formula /srv/formulas/graphite
 
 
-# default location for salt state files
+# Default location for salt state files
 mkdir -p /srv/salt/
 cp ~/graphite/salt/*.sls /srv/salt/
 
-# default location for salt state files
+# Default location for salt state files
 mkdir -p /srv/pillar/
 
+# Make pillar topfile
 envsubst <<EOF > /srv/pillar/top.sls
 base:
   '*-monitor':
     - graphite
 EOF
 
+# Make graphite pillar file
 envsubst <<EOF > /srv/pillar/graphite.sls
 # this example illustrates key you can overwrite in pillar (or grains)
 # the values given here are the default ones already included
