@@ -117,7 +117,7 @@ cp ~/graphite/salt/minion /etc/salt/minion
 # Default formula dir structure and parents
 mkdir -p /srv/formulas/ && cd /srv/formulas/
 # Clone the graphite formula
-git clone https://github.com/saltstack-formulas/graphite-formula /srv/formulas/graphite
+git clone git@github.com:carlcrott/graphite-formula.git
 
 
 # Default location for salt state files
