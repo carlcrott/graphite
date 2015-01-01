@@ -202,5 +202,8 @@ EOF
 
 # cp ~/.ssh/id_rsa* /srv/salt/.ssh/ # copy keys for minions
 
+# Restart salt-master
+pkill salt-master && salt-master -d
+
 
 
