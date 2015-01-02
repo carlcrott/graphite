@@ -119,8 +119,9 @@ cp ~/graphite/salt/*.sls /srv/salt/
 
 # Default formula dir structure and parents
 mkdir -p /srv/formulas/ && cd /srv/formulas/
-# Clone the graphite formula
+# Clone used formulas
 git clone git@github.com:carlcrott/graphite-formula.git
+git clone git@github.com:saltstack-formulas/mysql-formula.git
 
 # Default location for salt state files
 mkdir -p /srv/pillar/
