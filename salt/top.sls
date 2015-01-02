@@ -7,3 +7,4 @@ base:
   '*-monitor':
     - monitor_master_grain
     - graphite
+    - graphite.mysqldb
