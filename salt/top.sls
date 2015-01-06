@@ -5,4 +5,5 @@ base:
     - graphite.diamond
 
   '*-monitor':
-    - graphite
+    - curl
+    #- grafana # TO BE IMPLEMENTED
